@@ -91,8 +91,6 @@ int main(int argc, char **argv, char **envp){
       finished = 1;
       break;
     }
-    // if(!firstTime)
-    //   memset((char*)whatUserTyped, '\0', charCounter);
     charCounter = 0;
     int input_length = 0;
     int line_position = 0;
@@ -128,7 +126,6 @@ int main(int argc, char **argv, char **envp){
               if(input_length > MAX_INPUT-1){ break;}
               whatUserTyped[line_position] = last_char;
               input_length++;
-              //line_position++;
               charCounter++;
               int replace = 0;
               for(i = 0; i < MAX_INPUT; i++){
@@ -140,8 +137,6 @@ int main(int argc, char **argv, char **envp){
                    write(1, &ch, 1);
                    ch = 32;
                    write(1, &ch, 1);
-                   // ch = 8;
-                   // write(1, &ch, 1);
                    break;
                 }
 
@@ -169,16 +164,9 @@ int main(int argc, char **argv, char **envp){
       }
       //delete
       else if(*cursor == 127 && input_length > 0){
-        //cursor--;
         if(line_position > 0){
           ch = 8;
           write(1, &ch, 1);
-          // ch = 32;
-          // write(1, &ch, 1);
-          // ch = 8;
-          // write(1, &ch, 1);
-          // whatUserTyped[line_position] = '\0';
-          //printf("INPUTLENGTH: %d\n", input_length);
           if(line_position == input_length){
             ch = 32;
             write(1, &ch, 1);
@@ -218,10 +206,6 @@ int main(int argc, char **argv, char **envp){
             for(i = input_length - 1; i < MAX_INPUT; i++){
               whatUserTyped[i] = '\0';
             }
-            // ch = 8;
-            // write(1, &ch, 1);
-            // ch = 32;
-            // write(1, &ch ,1);
             for(i = 0; i < replacement - 1; i++){
                 ch = 8;
                 write(1, &ch, 1);
@@ -272,9 +256,6 @@ int main(int argc, char **argv, char **envp){
               input_length = strlen(whatUserTyped);
               hist_i = (hist_i + 1) % hist_length;
               write(1, whatUserTyped, input_length);
-              //whatUserTyped = "cd /home"
-              //printf("WHAT: %s\n", whatUserTyped);
-              //memset((char*)whatUserTyped, 0, charCounter);
               line_position = input_length;
           }
           //down
@@ -316,20 +297,6 @@ int main(int argc, char **argv, char **envp){
               hist_i = (hist_i + 1) % hist_length;
               write(1, whatUserTyped, input_length);
 
-              // if(hist_i > 0){
-              //   strcpy(whatUserTyped, hist[hist_i]);
-              //   input_length = strlen(whatUserTyped);
-              //   hist_i = (hist_i - 1) % hist_length;
-
-              //   write(1, whatUserTyped, input_length);
-              //   line_position = input_length;
-              // }
-              // else{
-              //   strcpy(whatUserTyped, "");
-              //   input_length = strlen(whatUserTyped);
-              //   write(1, whatUserTyped, input_length);
-              //   line_position = input_length;
-              // }
           }
           //left
           else if(char1 == 91 && char2 == 68){
@@ -344,13 +311,11 @@ int main(int argc, char **argv, char **envp){
           }
           //right
           else if(char1 == 91 && char2 == 67){
-              //printf("RIGHT ARROW\n");
               if(line_position < input_length){
                 char rig = whatUserTyped[line_position];
                 write(1, &rig, 1);
                 line_position++;
                 cursor++;
-                //charCounter++;
               }
           }
           else{
@@ -410,7 +375,6 @@ int main(int argc, char **argv, char **envp){
       }
       if(hasPipes && pipeError){
       }
-      // printf("argv[0] %s\n argv[1] %s\n argv[2] %s\n", pipeArgv[6], pipeArgv[7], pipeArgv[8]);
       int j = 0; //i value of where i am traversing through the statement
       while(supposedNumCommands){
         if(isBuiltIn2(pipeArgv[j], pipeStore)){
@@ -423,8 +387,6 @@ int main(int argc, char **argv, char **envp){
           }
         }
         j = i+1;
-        // printf("J: %d\n", j);
-        // printf("different array when checking for builtin! %s\n", pipeArgv[j]);
         supposedNumCommands--;
       }
       if(actualNumCommands == compareCommands){
@@ -445,7 +407,6 @@ int main(int argc, char **argv, char **envp){
       firstIndexSign = posWithLessThan;
     else if(posWithGreaterThan > posWithLessThan && posWithLessThan == 0)
       firstIndexSign = posWithGreaterThan;
-    // printf("%d\n", firstIndexSign);
     for(int i = 0; i < firstIndexSign; i++){
       argvNoSpec[i] = malloc(100);
     }
@@ -455,40 +416,23 @@ int main(int argc, char **argv, char **envp){
       hasSign = 1;
     else
       hasSign = 0;
-    // printf("has sign? %d", hasSign);
     if(hasSign){
     if(posWithGreaterThan > posWithLessThan){
-      // printf("did i go here1\n");
-      // char **ptr1 = argvArr;
-      // char **ptr2 = argvNoSpec;
       if(posWithLessThan == 0){
         for(int i = 0; i < posWithGreaterThan; i++){
           strcpy(argvNoSpec[i], argvArr[i]);
-          // strcpy(*ptr2, *ptr1);
-          // printf("argv[%d]; %s\n", i, argvNoSpec[i]);
-          // ptr2++;
-          // ptr1++;
-          // printf("%s\n", argvArr[i]);
         }
       }
       else{ //poswithlessthan != 0
-        // printf("poswithlessthan != 0\n");
         for(int i = 0; i < posWithLessThan; i++){
           strcpy(argvNoSpec[i], argvArr[i]);
-          // strcpy(*ptr2, *ptr1);
-          // ptr2++;
-          // ptr1++;
-        // printf("%s\n", argvArr[i]);
         }
       }
-      // printf("new0 %s new1 %s\n", argvNoSpec[0], argvNoSpec[1]);
     }
     else{ // posWithLessThan > posWithGreaterThan
-      // printf("did i go here2\n");
       if(posWithGreaterThan == 0){
         for(int i = 0; i < posWithLessThan; i++){
           strcpy(argvNoSpec[i], argvArr[i]);
-          // printf("%s\n", argvArr[i]);
         }
       }else{
         for(int i = 0; i < posWithGreaterThan; i++){
@@ -497,12 +441,6 @@ int main(int argc, char **argv, char **envp){
       }
     }
       }
-    // printf("wat i entered? %s %s\n", argvNoSpec[0], argvNoSpec[1]);
-    // if(argvNoSpec[0] != NULL){
-    //   printf("so i made it here! %s\n", argvNoSpec[0]);
-    // }else{
-    //   printf("nothing in argv\n");
-    // }
     char temp[MAX_INPUT];
     if(pipeOrNaw){
       pid_t pid;
@@ -552,8 +490,6 @@ int main(int argc, char **argv, char **envp){
     }
     else if(*argvArr[0] == '>' || *argvArr[0] == '<')
       printf("%c : command not found!\n", *argvArr[0]);
-    // else if(*argvArr[numArgs - 1] == '>' || *argvArr[numArgs - 1] == '<' || *argvArr[numArgs -1] == '|')
-    //   printf("%c : command not found!\n", *argvArr[numArgs]);
     else if(!strcmp(argvArr[0], "exit"))
       exit(0);
     else if(!strcmp(argvArr[0], "help")){
@@ -604,12 +540,10 @@ int main(int argc, char **argv, char **envp){
       }
     }
     else if((!strcmp(argvArr[0], "cd"))){
-        //printf("HERE\n");
         char* oldpwdpath = getcwd(temp, sizeof(temp));
         
         if(argvArr[1] == NULL){
             char *oldpath = getenv("OLDPWD");
-            //printf("OLD: %s\n", oldpath);
             struct stat s;
             int err = stat(oldpath, &s);
             if(err == -1){
@@ -618,7 +552,6 @@ int main(int argc, char **argv, char **envp){
                 }
                 else{
                   perror("stat");
-                  //exit(1);
                 }
             }
             else{
@@ -648,7 +581,6 @@ int main(int argc, char **argv, char **envp){
             char firstchar = argvArr[1][0];
             struct stat s;
             char *absolutepath;
-            //char *newpath;
             char buildpath[MAX_INPUT];
             int i = 0;
             if(firstchar != '/'){
@@ -657,17 +589,12 @@ int main(int argc, char **argv, char **envp){
               strcpy(buildpath, temporalpath);
               strcat(buildpath, "/");
               strcat(buildpath, argvArr[1]);
-              //printf("BUILT PATH: %s\n", buildpath);
               
               while(buildpath[i] != 0){
                   i++;
               }
-              //printf("BUILT PATH: %s\n", buildpath);
               char *newpath = (char*)malloc(i * sizeof(char));
-              //printf("NUM %d\n", i);
-              //printf("NEW PATH: %s\n", buildpath);
               strncpy(newpath, buildpath, i);
-              //printf("NEW PATH: %s\n", newpath);
               int err = stat(newpath, &s);
               if(err == -1){
                 if(errno == ENOENT){
@@ -675,7 +602,6 @@ int main(int argc, char **argv, char **envp){
                 }
                 else{
                   perror("stat");
-                  //exit(1);
                 }
               }
             
@@ -695,14 +621,8 @@ int main(int argc, char **argv, char **envp){
               while(absolutepath[i] != 0){
                   i++;
               }
-              //printf("LENGTH: %d\n", i);
               char *otherpath = (char*)malloc(i * sizeof(char));
               strncpy(otherpath, absolutepath, i);
-              // printf("BUILD PATH: %s\n", absolutepath);
-              // printf("BUILD PATH: %s\n", otherpath);
-              // for(int j = 0; j < strlen(otherpath); i++){
-              //   printf("%c", otherpath[i]);
-              // }
               int err = stat(otherpath, &s);
               if(err == -1){
                 if(errno == ENOENT){
@@ -710,7 +630,6 @@ int main(int argc, char **argv, char **envp){
                 }
                 else{
                   perror("stat");
-                  //exit(1);
                 }
             }
             else{
@@ -727,7 +646,7 @@ int main(int argc, char **argv, char **envp){
         setenv("OLDPWD", oldpwdpath, 1);
     }
     else if(!strcmp(argvArr[0], "echo")){
-      if(argvArr[1] != NULL){ //dsfaasdfdsf
+      if(argvArr[1] != NULL){ 
         if(argvArr[1][0] == '$'){
           if(hasGreaterThan){
             fd = open(argvArr[posWithGreaterThan + 1], O_RDWR | O_CREAT | O_TRUNC, 0666);
@@ -766,7 +685,7 @@ int main(int argc, char **argv, char **envp){
           close(100);
         }else{
           if((pid = fork()) == 0){
-            if(hasGreaterThan){ //asdf asdfkalsdjf
+            if(hasGreaterThan){
               fd = open(argvArr[posWithGreaterThan + 1], O_RDWR | O_CREAT | O_TRUNC, 0666);
               dup2(fd, 1);
               close(fd);
@@ -782,7 +701,6 @@ int main(int argc, char **argv, char **envp){
             returnCode = 0;
             exit(0);
           }else{
-            // close(fd);
             wait(&child_status);
           }
         }
@@ -805,7 +723,6 @@ int main(int argc, char **argv, char **envp){
     }
     else{
       if(isBuiltIn(argvArr, tempStore)){
-        // printf("tempStore? %s\n", tempStore);
         if((pid = fork()) == 0){
           if(hasGreaterThan){
             fd = open(argvArr[posWithGreaterThan + 1], O_RDWR | O_CREAT | O_TRUNC, 0666);
@@ -842,7 +759,6 @@ int main(int argc, char **argv, char **envp){
           }
           
         }else{
-          // close(fd);
           wait(&child_status);
         }
       }else{
@@ -862,7 +778,6 @@ int main(int argc, char **argv, char **envp){
       free(argvNoSpec[i]);
       argvNoSpec[i] = '\0';
     }
-    // firstTime = 0;
     hasGreaterThan = 0;
     hasLessThan = 0;
     pipeOrNaw = 0;
@@ -893,23 +808,12 @@ int checkForThePipes(char **argv, int numbArgs){
 
 /* returns num args */
 int buildArgv(char *cmdLine, char **argv){
-  // char *temp;
-  // int argc = 0;
-  // char *xd = malloc(MAX_INPUT);
-  // for(temp = strtok(cmdLine, " "); temp; temp = strtok(NULL, " ")){
-    // strcpy(xd, temp);
-    // strcat(xd, "\0");
-    // argv[argc++] = temp;
-  // }
-  // free(xd);
   char *temp; //points to a space
   int argc = 0;
   int run = 1;
-  //int bg; /*wtf*/
   cmdLine[strlen(cmdLine)-1] = ' ';       //replace \n with ' '
   while(*cmdLine && (*cmdLine == ' '))    //ignore leading spaces
     cmdLine++;
-  // if(*cmdLine != '\"'){
     while(run){
       if(*cmdLine == '\"'){
         cmdLine++;
@@ -938,11 +842,7 @@ int buildArgv(char *cmdLine, char **argv){
 where to store the path*/
 int isBuiltIn(char **argv, char store[]){
   char *daTemp = argv[0];
-  // char *test = malloc(MAX_INPUT);        THeSE 3 LINES ARE FOR RID OF \n 
-  // strncpy(test, daTemp, strlen(daTemp)-1);
   char *path = getenv("PATH");
-
-  // printf("what is the func?: %s\n", test);
 
   char tempPath[MAX_INPUT];
   strcpy(tempPath, path);
@@ -951,13 +851,11 @@ int isBuiltIn(char **argv, char store[]){
   char *temp;
   char tempCat[MAX_INPUT];
   struct stat fStat;
-  // printf("%s", argv[0]);
   for(temp = strtok(tempPath, ":"); temp; temp = strtok(NULL, ":")){
     strcpy(tempCat, temp);
     strcat(tempCat, "/");
     strcat(tempCat, daTemp);
     tempArr[argc] = tempCat;
-    // printf("%s\n", tempArr[argc]);
     if(stat(tempArr[argc], &fStat) >= 0){
       break;
     }
@@ -965,19 +863,9 @@ int isBuiltIn(char **argv, char store[]){
   }
   if(tempArr[argc] != NULL){
     strcpy(store, tempArr[argc]);
-    // free(test);
     return 1;
   }
-  // free(test);
   return 0;
-  // if(tempArr[argc] != NULL){ /*contains path of existing*/
-  //  if((pid = Fork()) == 0){
-  //    execve(tempArr[argc], )
-  //  }
-  // } else{
-  //  printf("%s: Command not found.\n", argv[0]);
-  //  return 0;
-  // }
 }
 
 int isBuiltIn2(char *argv, char store[]){
@@ -991,13 +879,11 @@ int isBuiltIn2(char *argv, char store[]){
   char *temp;
   char tempCat[MAX_INPUT];
   struct stat fStat;
-  // printf("%s", argv[0]);
   for(temp = strtok(tempPath, ":"); temp; temp = strtok(NULL, ":")){
     strcpy(tempCat, temp);
     strcat(tempCat, "/");
     strcat(tempCat, daTemp);
     tempArr[argc] = tempCat;
-    // printf("%s\n", tempArr[argc]);
     if(stat(tempArr[argc], &fStat) >= 0){
       break;
     }

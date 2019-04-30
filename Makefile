@@ -1,7 +1,7 @@
-all: 320sh
+all: shell
 
-320sh: 320sh.c
-	gcc -Wall -Werror -o 320sh 320sh.c 
+shell: shell.c
+	gcc -Wall -Werror -o shell shell.c 
 
 clean:
-	rm -f *~ *.o 320sh
+	rm -f *~ *.o shell

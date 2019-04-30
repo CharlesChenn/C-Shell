@@ -1,8 +1,8 @@
 #!/bin/sh
 
-## 320sh launcher 
+## Shell launcher 
 #
-#  This shell script ensures that the 320sh shell
+#  This shell script ensures that the shell
 #  gets control key strokes through standard in.
 #
 #  Launch it like this: . ./launcher.sh
